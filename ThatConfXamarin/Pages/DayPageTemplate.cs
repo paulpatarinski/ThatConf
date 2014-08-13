@@ -19,9 +19,8 @@ namespace ThatConfXamarin
 			var sessionItemTemplate = new DataTemplate (typeof(ImageCell));
 
 			sessionItemTemplate.SetBinding (ImageCell.TextProperty, "Title");
-			sessionItemTemplate.SetValue (ImageCell.TextColorProperty, Color.FromHex ("#3498DB"));
+			sessionItemTemplate.SetValue (ImageCell.TextColorProperty, Color.White);
 			sessionItemTemplate.SetBinding (ImageCell.DetailProperty, "Description");
-			sessionItemTemplate.SetValue (ImageCell.DetailColorProperty, Color.White);
 //			sessionItemTemplate.SetBinding (ImageCell.ImageSourceProperty, "ImageUrl");
 
 

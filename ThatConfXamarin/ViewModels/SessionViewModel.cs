@@ -19,6 +19,34 @@ namespace ThatConfXamarin
 		const string _thatConfBaseUrl = "https://www.thatconference.com";
 		List<SesssionItemTemplate> _sessionTemplates = new List<SesssionItemTemplate> ();
 
+		private double _hour;
+
+		public double Hour {
+			get {
+				return _hour;
+			}
+			set {
+				var rounderDouble = Math.Round (value);
+
+				ChangeAndNotify (ref _hour, rounderDouble); 
+
+				FilterSessionsByDayAndHour (_day, (int)_hour);
+			}
+		}
+
+		private ObservableCollection<SesssionItemTemplate> _sessionList;
+
+		public ObservableCollection<SesssionItemTemplate> SessionList {
+			get {
+				if (_sessionList == null) {
+					_sessionList = new ObservableCollection<SesssionItemTemplate> ();
+				}
+				return _sessionList;
+			}
+			set { ChangeAndNotify (ref _sessionList, value); }
+		}
+
+
 		public async Task LoadSessionsAsync (int day)
 		{
 			_day = day;
@@ -26,16 +54,16 @@ namespace ThatConfXamarin
 
 			foreach (var session in sessions) {
 				var title = "That Conference";
-				var imageUrl = "";
+				var imageUrl = "ThatConference.png";
 
 				var speaker = session.Speakers.FirstOrDefault ();
 
 				if (speaker != null) {
-					title = speaker.FirstName + " " + speaker.LastName + " " + session.ScheduledDateTime.ToString ("t") + " [Room :" + session.ScheduledRoom + "]";
-					imageUrl = string.Format ("{0}{1}", _thatConfBaseUrl, speaker.HeadShot);
+					title = speaker.FirstName + " " + speaker.LastName + " " + session.ScheduledDateTime.ToString ("t") + " [Room : " + session.ScheduledRoom + "]";
+//					imageUrl = string.Format ("{0}{1}", _thatConfBaseUrl, speaker.HeadShot);
 				}
 
-				_sessionTemplates.Add (new SesssionItemTemplate () {
+				_sessionTemplates.Add (new SesssionItemTemplate {
 					Title = title, 
 					Description = session.Title,
 					ImageUrl = imageUrl,
@@ -50,7 +78,7 @@ namespace ThatConfXamarin
 		private void FilterSessionsByDay (int day)
 		{
 			if (_sessionTemplates.Any ()) {
-			
+
 				var confDates = _sessionTemplates.GroupBy (session => session.SessionDate).Select (grp => grp.First ()).Select (x => x.SessionDate).ToList ();
 				var dayIndex = day - 1;
 
@@ -79,33 +107,6 @@ namespace ThatConfXamarin
 					SessionList.Add (session);
 				}
 			}
-		}
-
-		private double _hour;
-
-		public double Hour {
-			get {
-				return _hour;
-			}
-			set {
-				var rounderDouble = Math.Round (value);
-
-				ChangeAndNotify (ref _hour, rounderDouble); 
-
-				FilterSessionsByDayAndHour (_day, (int)_hour);
-			}
-		}
-
-		private ObservableCollection<SesssionItemTemplate> _sessionList;
-
-		public ObservableCollection<SesssionItemTemplate> SessionList {
-			get {
-				if (_sessionList == null) {
-					_sessionList = new ObservableCollection<SesssionItemTemplate> ();
-				}
-				return _sessionList;
-			}
-			set { ChangeAndNotify (ref _sessionList, value); }
 		}
 	}
 }
