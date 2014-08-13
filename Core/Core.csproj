@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -38,7 +38,7 @@
     <Compile Include="Pages\SessionPage.cs" />
     <Compile Include="Models\Session.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="Models\SesssionItemTemplate.cs" />
+    <Compile Include="Models\SessionItemTemplate.cs" />
     <Compile Include="Pages\DayTemplatePage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
@@ -69,11 +69,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Pages\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

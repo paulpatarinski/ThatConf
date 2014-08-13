@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Collections.Generic;
 
-namespace Core
+namespace Core.ViewModels
 {
 	public abstract class BaseViewModel : INotifyPropertyChanged
 	{

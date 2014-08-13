@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Core;
+using Core.Models;
 using Newtonsoft.Json;
 
-namespace ThatConfXamarin
+namespace Core.Services
 {
 	public class ThatConfService
 	{

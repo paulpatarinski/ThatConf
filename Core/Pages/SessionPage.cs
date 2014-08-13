@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace ThatConfXamarin
+namespace Core.Pages
 {
 	public class SessionPage : TabbedPage
 	{

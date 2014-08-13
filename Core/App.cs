@@ -1,6 +1,6 @@
 ﻿using System;
+using Core.Pages;
 using Xamarin.Forms;
-using ThatConfXamarin;
 
 namespace Core
 {

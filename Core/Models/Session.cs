@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace ThatConfXamarin
+namespace Core.Models
 {
 
 	public class Rootobject

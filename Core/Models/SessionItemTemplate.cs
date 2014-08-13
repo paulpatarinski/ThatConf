@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ThatConfXamarin
+namespace Core.Models
 {
-	public class SesssionItemTemplate
+	public class SessionItemTemplate
 	{
 		public string Title { get; set; }
 

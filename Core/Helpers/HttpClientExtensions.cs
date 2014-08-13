@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Net.Http;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Diagnostics;
+using Newtonsoft.Json;
 
-namespace Core
+namespace Core.Helpers
 {
 	public static class HttpClientExtensions
 	{

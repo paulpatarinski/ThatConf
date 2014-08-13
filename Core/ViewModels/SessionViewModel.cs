@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Core.Models;
+using Core.Services;
 
-namespace ThatConfXamarin
+namespace Core.ViewModels
 {
 	public class SessionViewModel : BaseViewModel
 	{
@@ -14,10 +15,10 @@ namespace ThatConfXamarin
 			_thatConfService = thatConfService;
 		}
 
-		ThatConfService _thatConfService;
+		readonly ThatConfService _thatConfService;
 		int _day;
 		const string _thatConfBaseUrl = "https://www.thatconference.com";
-		List<SesssionItemTemplate> _sessionTemplates = new List<SesssionItemTemplate> ();
+		readonly List<SessionItemTemplate> _sessionTemplates = new List<SessionItemTemplate> ();
 
 		private double _hour;
 
@@ -34,12 +35,14 @@ namespace ThatConfXamarin
 			}
 		}
 
-		private ObservableCollection<SesssionItemTemplate> _sessionList;
+		private ObservableCollection<SessionItemTemplate> _sessionList;
 
-		public ObservableCollection<SesssionItemTemplate> SessionList {
+		private Dictionary<DateTime, Dictionary<int, List<SessionItemTemplate>>> _sessionsByDay = new Dictionary<DateTime, Dictionary<int, List<SessionItemTemplate>>> ();
+
+		public ObservableCollection<SessionItemTemplate> SessionList {
 			get {
 				if (_sessionList == null) {
-					_sessionList = new ObservableCollection<SesssionItemTemplate> ();
+					_sessionList = new ObservableCollection<SessionItemTemplate> ();
 				}
 				return _sessionList;
 			}
@@ -60,46 +63,64 @@ namespace ThatConfXamarin
 
 				if (speaker != null) {
 					description = speaker.FirstName + " " + speaker.LastName + " " + session.ScheduledDateTime.ToString ("t") + " [Room : " + session.ScheduledRoom + "]";
-//					imageUrl = string.Format ("{0}{1}", _thatConfBaseUrl, speaker.HeadShot);
+					imageUrl = string.Format ("{0}{1}?{2}", _thatConfBaseUrl, speaker.HeadShot, "w=50&h=50&mode=crop");
 				}
 
-				_sessionTemplates.Add (new SesssionItemTemplate {
-					Title = session.Title, 
-					Description = description,
-					ImageUrl = imageUrl,
-					SessionDate = session.ScheduledDateTime.Date,
-					SessionTime = session.ScheduledDateTime.TimeOfDay
-				});
+				var sessionDate = session.ScheduledDateTime.Date;
+				var sessionTime = session.ScheduledDateTime.TimeOfDay.Hours;
+
+				if (!_sessionsByDay.ContainsKey (sessionDate)) {
+					var sessionsByTimeSpan = new Dictionary<int, List<SessionItemTemplate>> ();
+					sessionsByTimeSpan.Add (sessionTime, new List<SessionItemTemplate> { new SessionItemTemplate {
+							Title = session.Title,
+							Description = description,
+							ImageUrl = imageUrl,
+							SessionDate = sessionDate,
+							SessionTime = session.ScheduledDateTime.TimeOfDay
+						}
+					});
+
+					_sessionsByDay.Add (sessionDate, sessionsByTimeSpan);
+				} else {
+					if (!_sessionsByDay [sessionDate].ContainsKey (sessionTime)) {
+						_sessionsByDay [sessionDate].Add (sessionTime, new List<SessionItemTemplate> {  new SessionItemTemplate {
+								Title = session.Title,
+								Description = description,
+								ImageUrl = imageUrl,
+								SessionDate = sessionDate,
+								SessionTime = session.ScheduledDateTime.TimeOfDay
+							}
+						}
+						);
+					} else {
+						_sessionsByDay [sessionDate] [sessionTime].Add (new SessionItemTemplate {
+							Title = session.Title,
+							Description = description,
+							ImageUrl = imageUrl,
+							SessionDate = sessionDate,
+							SessionTime = session.ScheduledDateTime.TimeOfDay
+						});
+					}
+				}
 			}
 
 			FilterSessionsByDayAndHour (day, (int)Hour);
 		}
 
-		private void FilterSessionsByDay (int day)
-		{
-			if (_sessionTemplates.Any ()) {
-
-				var confDates = _sessionTemplates.GroupBy (session => session.SessionDate).Select (grp => grp.First ()).Select (x => x.SessionDate).ToList ();
-				var dayIndex = day - 1;
-
-				var startDate = confDates [dayIndex];
-
-				var filteredSessions = _sessionTemplates.Where (x => x.SessionDate == startDate);
-
-				SessionList.Clear ();
-
-				foreach (var session in filteredSessions) {
-					SessionList.Add (session);
-				}
-			}
-		}
-
 		private void FilterSessionsByDayAndHour (int day, int hour)
 		{
-			if (_sessionTemplates.Any ()) {
+			if (_sessionsByDay.Any () && hour != 0) {
 
-				FilterSessionsByDay (day);
-				var filteredSessions = SessionList.Where (x => x.SessionTime.Hours == hour).ToList ();
+				//var confDates = _sessionTemplates.GroupBy (session => session.SessionDate).Select (grp => grp.First ()).Select (x => x.SessionDate).ToList ();
+				var dayIndex = day - 1;
+
+				var startDate = _sessionsByDay.Keys.ToArray () [dayIndex];
+
+				var filteredSessions = new List<SessionItemTemplate> ();
+
+				if (_sessionsByDay [startDate].ContainsKey (hour)) {
+					filteredSessions = _sessionsByDay [startDate] [hour].ToList ();
+				}
 
 				SessionList.Clear ();
 
