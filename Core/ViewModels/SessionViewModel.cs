@@ -110,8 +110,6 @@ namespace Core.ViewModels
 		private void FilterSessionsByDayAndHour (int day, int hour)
 		{
 			if (_sessionsByDay.Any () && hour != 0) {
-
-				//var confDates = _sessionTemplates.GroupBy (session => session.SessionDate).Select (grp => grp.First ()).Select (x => x.SessionDate).ToList ();
 				var dayIndex = day - 1;
 
 				var startDate = _sessionsByDay.Keys.ToArray () [dayIndex];
