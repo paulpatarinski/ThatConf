@@ -1,7 +1,8 @@
 ﻿using System;
 using Xamarin.Forms;
+using ThatConfXamarin;
 
-namespace ThatConfXamarin
+namespace Core
 {
 	public class App
 	{

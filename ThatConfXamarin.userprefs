@@ -1,9 +1,9 @@
 ﻿<Properties GitUserInfo="UsingGIT">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.MonoForAndroid_API_15" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ThatConfXamarin\ViewModels\SessionViewModel.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.03cfb437437cd4ac" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Android\MainActivity.cs">
     <Files>
-      <File FileName="ThatConfXamarin\Pages\SessionPage.cs" Line="2" Column="2" />
-      <File FileName="ThatConfXamarin\ViewModels\SessionViewModel.cs" Line="3" Column="3" />
+      <File FileName="Android\MainActivity.cs" Line="21" Column="21" />
+      <File FileName="Core\App.cs" Line="36" Column="36" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
