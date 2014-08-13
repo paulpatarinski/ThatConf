@@ -5,29 +5,33 @@ namespace ThatConfXamarin
 {
 	public class DayTemplatePage : ContentPage
 	{
-		public DayTemplatePage (int day)
+	  private SessionViewModel _viewModel;
+	  private int _day;
+
+	  public DayTemplatePage (int day)
 		{
-			BackgroundColor = Color.FromHex ("ecf0f1");
+	    _day = day;
+	    BackgroundColor = Color.FromHex ("ecf0f1");
 			Title = "Day " + day;
-			var viewModel = new SessionViewModel (new ThatConfService (new System.Net.Http.HttpClient ()));
-			BindingContext = viewModel;
-			viewModel.LoadSessionsAsync (day);
+
+			_viewModel = new SessionViewModel (new ThatConfService (new System.Net.Http.HttpClient ()));
+      BindingContext = _viewModel;
 
 			var stackLayout = new StackLayout { };
 
 			var sessionListView = new ListView (){ BackgroundColor = Color.White, };
 
-			var sessionItemTemplate = new DataTemplate (typeof(ImageCell));
+			var sessionItemTemplate = new DataTemplate (typeof(TextCell));
 
-			sessionItemTemplate.SetBinding (ImageCell.TextProperty, "Title");
-			sessionItemTemplate.SetValue (ImageCell.TextColorProperty, Color.FromHex ("ae3814"));
-			sessionItemTemplate.SetBinding (ImageCell.DetailProperty, "Description");
-			sessionItemTemplate.SetValue (ImageCell.DetailColorProperty, Color.Black);
-//			sessionItemTemplate.SetBinding (ImageCell.ImageSourceProperty, "ImageUrl");
+      sessionItemTemplate.SetBinding(TextCell.TextProperty, "Title");
+      sessionItemTemplate.SetValue(TextCell.TextColorProperty, Color.FromHex("ae3814"));
+      sessionItemTemplate.SetBinding(TextCell.DetailProperty, "Description");
+      sessionItemTemplate.SetValue(TextCell.DetailColorProperty, Color.Black);
+      //sessionItemTemplate.SetBinding(ImageCell.ImageSourceProperty, "ImageUrl");
 
 
 			sessionListView.ItemTemplate = sessionItemTemplate;
-			sessionListView.BindingContext = viewModel;
+			sessionListView.BindingContext = _viewModel;
 			sessionListView.SetBinding<SessionViewModel> (ListView.ItemsSourceProperty, vm => vm.SessionList);
 
 			var slider = new Slider ();
@@ -42,6 +46,13 @@ namespace ThatConfXamarin
 
 			Content = stackLayout;
 		}
+
+	  protected override void OnAppearing()
+	  {
+      _viewModel.LoadSessionsAsync(_day);
+
+	    base.OnAppearing();
+	  }
 	}
 }
 
