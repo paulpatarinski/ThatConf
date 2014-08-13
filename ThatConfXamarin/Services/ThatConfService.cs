@@ -20,7 +20,7 @@ namespace ThatConfXamarin
 		private const string GetSessionsByTimeslotUrl =
 			"https://www.thatconference.com/api3/Session/GetAcceptedSessions";
 
-		public async Task<List<Session>> GetSessions ()
+		public async Task<List<Session>> GetSessionsAsync ()
 		{
 			var jsonString = await _restClient.GetStringAsync (GetSessionsByTimeslotUrl);
 			var list = JsonConvert.DeserializeObject<Session[]> (jsonString);

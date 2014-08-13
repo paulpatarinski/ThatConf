@@ -10,7 +10,7 @@ namespace ThatConfXamarin
 			Title = "Day " + day;
 			var viewModel = new SessionViewModel (new ThatConfService (new System.Net.Http.HttpClient ()));
 			BindingContext = viewModel;
-			viewModel.LoadSessions (day);
+			viewModel.LoadSessionsAsync (day);
 
 			var stackLayout = new StackLayout ();
 

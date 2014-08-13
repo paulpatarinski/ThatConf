@@ -9,31 +9,26 @@ namespace ThatConfXamarin
 {
 	public class SessionViewModel : BaseViewModel
 	{
-		ThatConfService _thatConfService;
-
 		public SessionViewModel (ThatConfService thatConfService)
 		{
 			_thatConfService = thatConfService;
 		}
 
-
-		private string _thatConfBaseUrl = "https://www.thatconference.com";
-
+		ThatConfService _thatConfService;
+		int _day;
+		const string _thatConfBaseUrl = "https://www.thatconference.com";
 		List<SesssionItemTemplate> _sessionTemplates = new List<SesssionItemTemplate> ();
 
-		int _day;
-
-		public async Task LoadSessions (int day)
+		public async Task LoadSessionsAsync (int day)
 		{
 			_day = day;
-			var sessions = await _thatConfService.GetSessions ();
+			var sessions = await _thatConfService.GetSessionsAsync ();
 
 			foreach (var session in sessions) {
 				var title = "That Conference";
 				var imageUrl = "";
 
 				var speaker = session.Speakers.FirstOrDefault ();
-
 
 				if (speaker != null) {
 					title = speaker.FirstName + " " + speaker.LastName;
