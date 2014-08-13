@@ -18,11 +18,11 @@ namespace ThatConfXamarin
 
 			var sessionItemTemplate = new DataTemplate (typeof(ImageCell));
 
-			sessionItemTemplate.SetBinding (ImageCell.TextProperty, "ItemTemplateTextProperty");
+			sessionItemTemplate.SetBinding (ImageCell.TextProperty, "Title");
 			sessionItemTemplate.SetValue (ImageCell.TextColorProperty, Color.FromHex ("#3498DB"));
-			sessionItemTemplate.SetBinding (ImageCell.DetailProperty, "ItemTemplateDetailProperty");
+			sessionItemTemplate.SetBinding (ImageCell.DetailProperty, "Description");
 			sessionItemTemplate.SetValue (ImageCell.DetailColorProperty, Color.White);
-//			sessionItemTemplate.SetBinding (ImageCell.ImageSourceProperty, "ItemTemplateIconProperty");
+//			sessionItemTemplate.SetBinding (ImageCell.ImageSourceProperty, "ImageUrl");
 
 
 			sessionListView.ItemTemplate = sessionItemTemplate;
