@@ -3,24 +3,26 @@ using Xamarin.Forms;
 
 namespace ThatConfXamarin
 {
-	public class DayPageTemplate : ContentPage
+	public class DayTemplatePage : ContentPage
 	{
-		public DayPageTemplate (int day)
+		public DayTemplatePage (int day)
 		{
+			BackgroundColor = Color.FromHex ("ecf0f1");
 			Title = "Day " + day;
 			var viewModel = new SessionViewModel (new ThatConfService (new System.Net.Http.HttpClient ()));
 			BindingContext = viewModel;
 			viewModel.LoadSessionsAsync (day);
 
-			var stackLayout = new StackLayout ();
+			var stackLayout = new StackLayout { };
 
-			var sessionListView = new ListView ();
+			var sessionListView = new ListView (){ BackgroundColor = Color.White, };
 
 			var sessionItemTemplate = new DataTemplate (typeof(ImageCell));
 
 			sessionItemTemplate.SetBinding (ImageCell.TextProperty, "Title");
-			sessionItemTemplate.SetValue (ImageCell.TextColorProperty, Color.White);
+			sessionItemTemplate.SetValue (ImageCell.TextColorProperty, Color.FromHex ("ae3814"));
 			sessionItemTemplate.SetBinding (ImageCell.DetailProperty, "Description");
+			sessionItemTemplate.SetValue (ImageCell.DetailColorProperty, Color.Black);
 //			sessionItemTemplate.SetBinding (ImageCell.ImageSourceProperty, "ImageUrl");
 
 
