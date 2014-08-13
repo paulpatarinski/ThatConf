@@ -31,7 +31,7 @@ namespace ThatConfXamarin
 				var speaker = session.Speakers.FirstOrDefault ();
 
 				if (speaker != null) {
-					title = speaker.FirstName + " " + speaker.LastName;
+					title = speaker.FirstName + " " + speaker.LastName + " " + session.ScheduledDateTime.ToString ("t") + " [Room :" + session.ScheduledRoom + "]";
 					imageUrl = string.Format ("{0}{1}", _thatConfBaseUrl, speaker.HeadShot);
 				}
 
